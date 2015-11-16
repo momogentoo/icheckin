@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "mocha": "2.3.4",
-    "restify": "4.0.3"
+    "restify": "4.0.3",
+    "uuid": "2.0.1"
   }
 }

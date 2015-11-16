@@ -2,19 +2,19 @@ var assert = require('assert');
 var auth_tokens = require('../auth_tokens.js');
 
 describe('validate_rtoken', function(){
-    it('returns false if no parameter is given', function(){
-        assert.equal(false, auth_tokens.validate_rtoken(null, null));
+    it('returns -1 if no parameter is given', function(){
+        assert.equal(-1, auth_tokens.validate_rtoken(null, null));
     })
 
-    it('returns false if request token is not in record', function(){
-        assert.equal(false, auth_tokens.validate_rtoken('DEADBEEF', 'Any secret'));
+    it('returns -1 if request token is not in record', function(){
+        assert.equal(-1, auth_tokens.validate_rtoken('DEADBEEF', 'Any secret'));
     })
 
-    it('returns true if request token is in record and not expired', function(){
-        assert.equal(true, auth_tokens.validate_rtoken('12dea96fec20593566ab75692c9949596833adc9', 'Any secret'));
+    it('returns uid if request token is in record and not expired', function(){
+        assert.equal(9999, auth_tokens.validate_rtoken('12dea96fec20593566ab75692c9949596833adc9', 'Any secret'));
     })
-    it('returns false if request token is in record but expired', function(){
-        assert.equal(false, auth_tokens.validate_rtoken('12dea96fec20593566ab75692c9949596833adc0', 'Any secret'));
+    it('returns -1 if request token is in record but expired', function(){
+        assert.equal(-1, auth_tokens.validate_rtoken('12dea96fec20593566ab75692c9949596833adc0', 'Any secret'));
     })
 })
 

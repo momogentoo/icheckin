@@ -21,23 +21,27 @@ if (utils.fileExists(atoken_files)) {
     auth_tokens_records = JSON.parse(fs.readFileSync(atoken_files, 'utf8'));
 }
 
+// Exported functions
+exports.retrieve_rtoken = retrive_rtoken_by_atoken;
+exports.validate_rtoken = validate_rtoken;
+
 // Validate request token
 function validate_rtoken(rtoken, secret) {
     if (rtoken == null || secret == null) {
-        return false;
+        return -1;
     }
 
     if (tokens_records[rtoken] == null) {
-        return false;
+        return -1;
     }
     else {
         // check if expired
         now = new Date();
         if ((tokens_records[rtoken].expire != -1) && (tokens_records[rtoken].expire < now.getTime())) {
-            return false;
+            return -1;
         }
         else {
-            return true;
+            return tokens_records[rtoken].uid;
         }
     }
 }
@@ -72,5 +76,3 @@ function retrive_rtoken_by_atoken(atoken, secret) {
     }
 }
 
-exports.retrieve_rtoken = retrive_rtoken_by_atoken;
-exports.validate_rtoken = validate_rtoken;
