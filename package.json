@@ -1,0 +1,22 @@
+{
+  "name": "icheckin",
+  "version": "0.0.1",
+  "description": "Back-end data services for check in/out requests",
+  "main": "main.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/momogentoo/icheckin.git"
+  },
+  "author": "momogentoo",
+  "license": "Apache License 2.0",
+  "bugs": {
+    "url": "https://github.com/momogentoo/icheckin/issues"
+  },
+  "dependencies": {
+    "mocha": "2.3.4",
+    "restify": "4.0.3"
+  }
+}
