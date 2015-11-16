@@ -47,13 +47,52 @@ function checkin(req, res, next) {
     }
 
     console.log('[checkin] ' + uid);
-    res.send(200);
+    record_digest = book_keeper.add_record(book, {
+        "rtoken" : req.params.rtoken,
+        "action" : action_codes.checkin,
+        "uid" : uid
+    }, null, null);
+
+    res.send(record_digest);
+
+    console.log(JSON.stringify(book));
 
     return next();
 }
 
+function checkout(req, res, next) {
+    var uid = -1;
+    if ((uid = auth_tokens.validate_rtoken(req.params.rtoken, 'any')) == -1) {
+        res.send(401);
+    }
+
+    // UUID of related action record is required
+    if (!req.params.hasOwnProperty('ruuid')) {
+        res.send(400);
+    }
+
+    console.log('[checkout] ' + uid);
+    record_digest = book_keeper.add_record(book, {
+        "rtoken" : req.params.rtoken,
+        "action" : action_codes.checkout,
+        "uid" : uid
+    }, 
+    action_codes.checkin, req.params.ruuid);
+
+    res.send(record_digest);
+
+    console.log(JSON.stringify(book));
+
+    return next();
+}
+
+function track(req, res, next) {
+}
+
 server.get('/ping/:rtoken', ping);
 server.get('/checkin/:rtoken', checkin);
+server.get('/checkout/:rtoken', checkout);
+server.get('/track/:rtoken', track);
 
 server.listen(8080, function () {
     console.log('%s listening at %s', server.name, server.url);

@@ -36,8 +36,7 @@ function add_record(book, action_detail, related_action, related_ruuid) {
 
         return {
             "return_code" : 0,
-            "key" : record_uuid,
-            "uuid" : record_uuid
+            "key" : record_uuid
         };
     }
     else { 
@@ -47,6 +46,12 @@ function add_record(book, action_detail, related_action, related_ruuid) {
         if (record_digest.return_code === 0) {
             // Find related records by related_ruuid
             if (book[action_detail.uid].hasOwnProperty(related_ruuid)) {
+                // Update some related info
+                book[action_detail.uid][record_digest.key].related_records.push({
+                    "action" : related_action,
+                    "key": book[action_detail.uid][related_ruuid].uuid
+                });
+
                 // Verify related action
                 if (book[action_detail.uid][related_ruuid].action === related_action) {
                 // Found, add digest so they can be linked 
@@ -57,8 +62,7 @@ function add_record(book, action_detail, related_action, related_ruuid) {
 
                     return {
                         "return_code" : 0,
-                        "key" : record_uuid,
-                        "uuid" : record_uuid
+                        "key" : record_uuid
                     };
                 }
             }
@@ -66,8 +70,7 @@ function add_record(book, action_detail, related_action, related_ruuid) {
             // Cannot find related records or related action does not match
             return {
                 "return_code" : 1,
-                "key" : record_uuid,
-                "uuid" : record_uuid
+                "key" : record_uuid
             };
         }
     }
